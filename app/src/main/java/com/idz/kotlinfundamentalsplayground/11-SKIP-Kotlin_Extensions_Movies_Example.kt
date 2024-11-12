@@ -1,33 +1,34 @@
-
 /**
  * Kotlin's extension functions allow you to add new functions to existing classes without modifying them.
- * This file demonstrates the usage of extension functions with a movie-themed context.
- * In Java and Swift, similar functionality is achieved differently, as they don't support extension functions natively.
+ * This file demonstrates the usage of extension functions in a blockchain context.
  */
 
-class EXMovie(val title: String, var rating: Int)
+class Wallet5(val address: String, var balance: Double)
 
-// Extension function for the Movie class
-// Java: Typically achieved through helper classes with static methods.
-// Swift: Similar concept with 'extension' keyword.
-fun EXMovie.isHighlyRated(): Boolean = this.rating >= 8
+// Extension function for the Wallet class to display balance in a formatted string
+fun Wallet5.displayBalance(): String {
+    return "Wallet Balance: $${"%.2f".format(balance)}"
+}
 
-// Extension property
-// Java: Not directly supported; use getter methods in utility classes.
-// Swift: Similar concept with 'extension' to add computed properties.
-val EXMovie.yearOfRelease: Int
-    get() = if (title.contains("Inception")) 2010 else 2020
+// Extension function for the Wallet class to check if balance is above a certain threshold
+fun Wallet5.isHighBalance(threshold: Double): Boolean {
+    return balance > threshold
+}
+
+class Transaction2(val id: String, val amount: Double)
+
+// Extension function for the Transaction class to display a transaction summary
+fun Transaction2.summary(): String {
+    return "Transaction ID: $id, Amount: $${"%.2f".format(amount)}"
+}
 
 fun main() {
-    val inception = EXMovie("Inception", 9)
-    val interstellar = EXMovie("Interstellar", 8)
-    val movies = listOf(inception, interstellar)
+    // Using the Wallet extension functions
+    val wallet = Wallet5("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", 750.0)
+    println(wallet.displayBalance()) // Shows formatted balance
+    println("Is high balance wallet? ${wallet.isHighBalance(500.0)}")
 
-    // Using the extension function
-    if (inception.isHighlyRated()) {
-        println("${inception.title} is highly rated.")
-    }
-
-    // Using the extension property
-    println("${inception.title} was released in ${inception.yearOfRelease}")
+    // Using the Transaction extension function
+    val transaction = Transaction2("tx12345", 150.0)
+    println(transaction.summary()) // Shows transaction summary
 }
