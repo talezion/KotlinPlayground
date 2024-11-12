@@ -1,83 +1,48 @@
-
 /**
  * Kotlin's Sealed Classes and Enum Classes offer specialized ways to represent restricted class hierarchies.
  * Sealed classes define a closed set of subclasses, while Enum classes are for enumerations.
- * This file uses a movie-themed example to illustrate these concepts in Kotlin, with Java and Swift comparisons.
+ * This file uses blockchain and cryptocurrency concepts to illustrate these ideas in Kotlin.
  */
 
-// Enum Class: Enumerates a set of constants (e.g., genres of movies)
-// Java: enum Genre { ACTION, COMEDY, DRAMA, FANTASY }
-// Swift: enum Genre { case action, comedy, drama, fantasy }
-enum class MovieGenre {
-    ACTION, COMEDY, DRAMA, THRILLER
+// Enum Class: Enumerates a set of constants (e.g., types of transactions)
+enum class TransactionType {
+    DEPOSIT, WITHDRAWAL, TRANSFER, STAKE
 }
 
-fun describeGenre(genre: MovieGenre) {
-    when (genre) {
-        MovieGenre.ACTION -> println("Genre is action-packed")
-        MovieGenre.COMEDY -> println("Genre is humorous")
-        MovieGenre.DRAMA -> println("Genre is serious and narrative")
-        MovieGenre.THRILLER -> println("Genre is suspenseful")
+// Demonstrates usage of the TransactionType enum
+fun describeTransaction(type: TransactionType) {
+    when (type) {
+        TransactionType.DEPOSIT -> println("Processing a deposit transaction.")
+        TransactionType.WITHDRAWAL -> println("Processing a withdrawal transaction.")
+        TransactionType.TRANSFER -> println("Processing a transfer transaction.")
+        TransactionType.STAKE -> println("Processing a staking transaction.")
     }
 }
 
-// Enum with Properties
-
-enum class MovieRatings(val stars: Int) {
-    BAD(1), AVERAGE(3), GOOD(5)
+// Sealed Class: Defines a set of possible blockchain states
+sealed class BlockchainStatus {
+    data object Active : BlockchainStatus()
+    data object Inactive : BlockchainStatus()
+    data class Syncing(val progress: Int) : BlockchainStatus() // Sync progress as percentage
 }
 
-fun rateMovie(rating: MovieRatings) {
-    when (rating) {
-        MovieRatings.BAD -> println("Rating: ${rating.stars} - Poor quality")
-        MovieRatings.AVERAGE -> println("Rating: ${rating.stars} - Decent choice")
-        MovieRatings.GOOD -> println("Rating: ${rating.stars} - Highly recommended")
+// Function to display blockchain status using a sealed class
+fun displayBlockchainStatus(status: BlockchainStatus) {
+    when (status) {
+        is BlockchainStatus.Active -> println("Blockchain is active and operational.")
+        is BlockchainStatus.Inactive -> println("Blockchain is inactive.")
+        is BlockchainStatus.Syncing -> println("Blockchain is syncing. Progress: ${status.progress}%")
+        else -> {}
     }
 }
-
-// Enum with Methods
-
-enum class MovieDuration {
-    SHORT, MEDIUM, LONG;
-
-    fun getDescription(): String {
-        return when (this) {
-            SHORT -> "Under 90 minutes"
-            MEDIUM -> "Between 90 and 120 minutes"
-            LONG -> "Over 120 minutes"
-        }
-    }
-}
-
-
-// Enum Iteration
-
-enum class MovieType {
-    HORROR, SCI_FI, ROMANCE
-}
-
-fun listAllMovieTypes() {
-    MovieType.values().forEach { type ->
-        when (type) {
-            MovieType.HORROR -> println("Horror movies are scary")
-            MovieType.SCI_FI -> println("Sci-Fi movies are futuristic")
-            MovieType.ROMANCE -> println("Romance movies focus on love stories")
-        }
-    }
-}
-
 
 fun main() {
+    // Example usage of TransactionType enum
+    describeTransaction(TransactionType.DEPOSIT)
+    describeTransaction(TransactionType.WITHDRAWAL)
 
-
-    // Working with enum classes
-    val genre = MovieGenre.ACTION
-    describeGenre(genre)
-
-    rateMovie(MovieRatings.AVERAGE)
-
-    val movieDuration = MovieDuration.LONG
-    println("Duration: ${movieDuration.getDescription()}")
-
-    listAllMovieTypes()
+    // Example usage of BlockchainStatus sealed class
+    displayBlockchainStatus(BlockchainStatus.Active)
+    displayBlockchainStatus(BlockchainStatus.Syncing(45))
+    displayBlockchainStatus(BlockchainStatus.Inactive)
 }

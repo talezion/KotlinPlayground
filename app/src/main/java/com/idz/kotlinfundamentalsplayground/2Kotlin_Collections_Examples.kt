@@ -1,51 +1,45 @@
-
 /**
  * Kotlin provides a variety of collection types, including both immutable and mutable versions.
  * - listOf, setOf, and mapOf create immutable collections.
  * - ArrayList, mutableListOf, mutableSetOf, and mutableMapOf create mutable collections.
- * This file demonstrates various ways to use these collections, with a movie-themed context.
- * Java and Swift comparisons are included in the comments.
+ * This file demonstrates various ways to use these collections, now in a blockchain and cryptocurrency context.
  */
 
 fun main() {
-    // Immutable List
-    // Java: List<String> immutableList = Collections.unmodifiableList(Arrays.asList("Inception", "Interstellar"));
-    // Swift: let immutableList: [String] = ["Inception", "Interstellar"]
-    val immutableList = listOf("Inception", "Interstellar")
+    // Immutable List representing a set of blockchain network names
+    val blockchainNetworks = listOf("Bitcoin", "Ethereum", "Solana", "Cardano")
+    println("Blockchain Networks: $blockchainNetworks")
 
-    // Mutable List - ArrayList
-    // Java: ArrayList<String> arrayList = new ArrayList<>(Arrays.asList("Inception", "Interstellar"));
-    // Swift: var arrayList: [String] = ["Inception", "Interstellar"]
-    val arrayList = ArrayList(immutableList)
-    arrayList.add("Dunkirk")
+    // Mutable ArrayList of transaction IDs (e.g., for tracking recent transactions)
+    val transactionIds = ArrayList<String>()
+    transactionIds.add("tx123")
+    transactionIds.add("tx456")
+    transactionIds.add("tx789")
+    transactionIds.add("tx101") // Adding a new transaction
+    println("Transaction IDs (ArrayList): $transactionIds")
 
-    // Immutable Set
-    // Java: Set<String> immutableSet = Collections.unmodifiableSet(new HashSet<>(Arrays.asList("Sci-Fi", "Drama")));
-    // Swift: let immutableSet: Set<String> = ["Sci-Fi", "Drama"]
-    val immutableSet = setOf("Sci-Fi", "Drama")
+    // Immutable Set of unique crypto wallet addresses
+    val walletAddresses = setOf("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", "1JHGvM8BCdsWx6LT2eQvF7Ps2TiU3P3pR", "3H8yU7CD4dKsF8fhSjk7Z")
+    println("Unique Wallet Addresses: $walletAddresses")
 
-    // Mutable Set
-    // Java: Set<String> mutableSet = new HashSet<>(Arrays.asList("Sci-Fi", "Drama"));
-    // Swift: var mutableSet: Set<String> = ["Sci-Fi", "Drama"]
-    val mutableSet = mutableSetOf("Sci-Fi", "Drama")
-    mutableSet.add("Thriller")
+    // Mutable Set for storing mined block hashes (no duplicates allowed)
+    val minedBlocks = mutableSetOf("0000000000000000000a1b2c3d4e5f6g", "0000000000000000007e8f9a0b1c2d3e")
+    minedBlocks.add("0000000000000000004a5b6c7d8e9f0g") // Adding a new block hash
+    println("Mined Blocks: $minedBlocks")
 
-    // Immutable Map
-    // Java: Map<String, String> immutableMap = Collections.unmodifiableMap(new HashMap<String, String>() {{ put("Inception", "Nolan"); put("Interstellar", "Nolan"); }});
-    // Swift: let immutableMap: [String: String] = ["Inception": "Nolan", "Interstellar": "Nolan"]
-    val immutableMap = mapOf("Inception" to "Nolan", "Interstellar" to "Nolan")
+    // Immutable Map for associating wallet addresses with account balances
+    val walletBalances = mapOf(
+        "1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa" to 1.2345,
+        "1JHGvM8BCdsWx6LT2eQvF7Ps2TiU3P3pR" to 0.5678,
+        "3H8yU7CD4dKsF8fhSjk7Z" to 2.3456
+    )
+    println("Wallet Balances: $walletBalances")
 
-    // Mutable Map
-    // Java: Map<String, String> mutableMap = new HashMap<String, String>() {{ put("Inception", "Nolan"); put("Interstellar", "Nolan"); }};
-    // Swift: var mutableMap: [String: String] = ["Inception": "Nolan", "Interstellar": "Nolan"]
-    val mutableMap = mutableMapOf("Inception" to "Nolan", "Interstellar" to "Nolan")
-    mutableMap["Dunkirk"] = "Nolan"
-
-    // Demonstrating usage
-    println("Immutable List: $immutableList")
-    println("ArrayList: $arrayList")
-    println("Immutable Set: $immutableSet")
-    println("Mutable Set: $mutableSet")
-    println("Immutable Map: $immutableMap")
-    println("Mutable Map: $mutableMap")
+    // Mutable Map for tracking recent block confirmations (block hash to confirmation count)
+    val blockConfirmations = mutableMapOf(
+        "0000000000000000000a1b2c3d4e5f6g" to 100,
+        "0000000000000000007e8f9a0b1c2d3e" to 75
+    )
+    blockConfirmations["0000000000000000004a5b6c7d8e9f0g"] = 50 // Adding a new block with confirmations
+    println("Block Confirmations: $blockConfirmations")
 }

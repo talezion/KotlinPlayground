@@ -1,50 +1,46 @@
-
 /**
  * Kotlin's scope functions ('let', 'run', 'with', 'apply', and 'also') are used to execute code within the context of an object.
  * They differ in how they refer to the context object and what they return.
- * This file demonstrates the usage of these scope functions with a movie-themed context.
- * Java and Swift don't have direct equivalents but similar behavior can be achieved with different constructs.
+ * This file demonstrates the usage of these scope functions in a blockchain context.
  */
 
-class SFMovie(var title: String, var director: String, var year: Int)
+class Wallet4(var address: String, var balance: Double)
 
 fun main() {
-    val movie = SFMovie("Inception", "Christopher Nolan", 2010)
-
-    // 'let' is used for executing a block of code and returning the result. It refers to the context object using 'it'.
-    // Java & Swift: Similar to using an object within a block and returning a value.
-    val titleLength = movie.let {
-        println("Title: ${it.title}")
-        it.title.length // Returns the length of the title
+    // Example using 'let' to safely work with a nullable Wallet
+    val wallet: Wallet4? = Wallet4("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", 500.0)
+    wallet?.let {
+        println("Wallet Address: ${it.address}")
+        println("Wallet Balance: ${it.balance}")
     }
 
-    // 'run' is similar to 'let' but refers to the context object using 'this'.
-    // Java & Swift: Similar to using an object within a block and returning a value.
-    val movieInfo = movie.run {
-        "Movie: $title, Directed by $director, Released in $year"
+    // Example using 'run' to execute multiple operations on the wallet
+    val newBalance = wallet?.run {
+        balance += 100.0 // Adding funds to the balance
+        println("Updated Balance with run: $balance")
+        balance // Return the balance as the result
+    }
+    println("Balance after run: $newBalance")
+
+    // Example using 'with' for a transaction summary
+    with(wallet!!) {
+        println("Transaction Summary")
+        println("Address: $address")
+        println("Final Balance: $balance")
     }
 
-    // 'with' is used to configure an object. It's not an extension like 'let' or 'run', so the context object is passed as an argument.
-    // Java & Swift: Similar to setting multiple properties of an object within a block.
-    with(movie) {
-        title = "Interstellar"
-        director = "Christopher Nolan"
-        year = 2014
+    // Example using 'apply' for initializing a new Wallet
+    val newWallet = Wallet4("3J98t1WpEZ73CNmQviecrnyiWrnqRhWNLy", 0.0).apply {
+        balance = 300.0
+        println("Created new wallet with address: $address and balance: $balance")
     }
 
-    // 'apply' is used for configuring an object and returns the context object.
-    // Java & Swift: Similar to setting multiple properties of an object within a block and then returning the object.
-    val updatedMovie = movie.apply {
-        title = "Dunkirk"
+    // Example using 'also' to log actions during a transaction
+    newWallet.also {
+        println("Attempting transaction of 50.0 from wallet: ${it.address}")
+    }.apply {
+        balance -= 50.0
+    }.also {
+        println("New Balance after transaction: ${it.balance}")
     }
-
-    // 'also' is used for additional operations that don't alter the object. It refers to the context object using 'it' and returns the object.
-    // Java & Swift: Similar to performing operations on an object and then returning the object.
-    movie.also {
-        println("Updated movie: ${it.title}")
-    }
-
-    println("Title Length: $titleLength")
-    println("Movie Info: $movieInfo")
-    println("Updated Movie: ${updatedMovie.title}")
 }

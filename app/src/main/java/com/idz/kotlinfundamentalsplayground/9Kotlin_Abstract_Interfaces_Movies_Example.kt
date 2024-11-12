@@ -1,67 +1,77 @@
-
 /**
  * Kotlin Abstract Classes and Interfaces offer a way to define contracts that other classes can implement or inherit.
  * Abstract classes can have both abstract (unimplemented) and non-abstract (implemented) members.
  * Interfaces can contain abstract methods and property definitions, and since Kotlin 1.4, they can also contain implementations.
- * This file demonstrates various uses of abstract classes and interfaces, along with Java and Swift comparisons.
- * The examples are themed around movies to make them more engaging and understandable.
+ * This file demonstrates various uses of abstract classes, interfaces, and generics in a blockchain context.
  */
 
-// Abstract class example
-// Java: abstract class Movie { abstract void play(); }
-// Swift: protocol Movie { func play() }
-abstract class AbstractMovie {
-    abstract fun play()
-    fun getDescription() = "This is a movie"
+// Abstract Class: Defines a blueprint for blockchain entities
+abstract class BlockchainEntity(val id: String) {
+    abstract fun validate(): Boolean // Abstract method to validate the entity
+    open fun displayId() {
+        println("Blockchain Entity ID: $id")
+    }
 }
 
-// Implementing an abstract class
-class ActionMovie : AbstractMovie() {
-    override fun play() = println("Action movie playing")
+// Concrete class inheriting from BlockchainEntity
+class Block2(id: String, val hash: String) : BlockchainEntity(id) {
+    override fun validate() = hash.startsWith("0000") // A simple validation rule for demo purposes
+    override fun displayId() {
+        println("Block ID: $id with Hash: $hash")
+    }
 }
 
-// Interface with properties and methods
-// Java: interface MovieDetails { String getGenre(); void setGenre(String genre); }
-// Swift: protocol MovieDetails { var genre: String { get set } }
-interface InterfaceMovieDetails {
-    var genre: String
-    fun displayDetails()
+// Interface defining transaction processing methods
+interface TransactionProcessor {
+    fun processTransaction(amount: Double): Boolean // Abstract method
+    fun cancelTransaction(transactionId: String) {
+        println("Transaction $transactionId has been canceled.")
+    }
 }
 
-// Implementing an interface
-class ComedyMovie(override var genre: String) : InterfaceMovieDetails {
-    override fun displayDetails() = println("Genre: $genre")
+// Implementing the TransactionProcessor interface in Wallet class
+class Wallet3(id: String, private var balance: Double) : BlockchainEntity(id), TransactionProcessor {
+    override fun validate() = balance >= 0 // A wallet is valid if balance is non-negative
+
+    override fun processTransaction(amount: Double): Boolean {
+        return if (amount <= balance) {
+            balance -= amount
+            println("Processed transaction of $amount. Remaining balance: $balance")
+            true
+        } else {
+            println("Insufficient balance.")
+            false
+        }
+    }
 }
 
-// Interface with a generic type
-// Java: interface Review<T> { void review(T item); }
-// Swift: protocol Review { associatedtype T; func review(_ item: T) }
-interface Review<T> {
-    fun review(item: T)
-}
-
-// Implementing a generic interface
-class GenericMovieReview : Review<AbstractMovie> {
-    override fun review(item: AbstractMovie) = println("Reviewing movie $item")
-}
-
-// Abstract class with annotations
-@Deprecated("Use new Movie system")
-abstract class AbstractOldMovie {
-    abstract fun playOldMovie()
+// Generic class for handling different types of blockchain responses
+class ResponseHandler<T> {
+    fun handleResponse(response: T) {
+        println("Handling response: $response")
+    }
 }
 
 fun main() {
-    // Instantiating and using a class that implements an abstract class
-    val actionMovie = ActionMovie()
-    actionMovie.play()
-    println(actionMovie.getDescription())
+    // Creating and validating a Block
+    val genesisBlock = Block2("blk123", "00001234abcd5678")
+    genesisBlock.displayId()
+    println("Is Genesis Block valid? ${genesisBlock.validate()}")
 
-    // Instantiating and using a class that implements an interface
-    val comedyMovie = ComedyMovie("Comedy")
-    comedyMovie.displayDetails()
+    // Creating a Wallet and processing a transaction
+    val wallet = Wallet3("wallet123", 500.0)
+    wallet.displayId()
+    wallet.processTransaction(150.0)
+    wallet.cancelTransaction("tx5678")
 
-    // Using a class that implements a generic interface
-    val movieReview = GenericMovieReview()
-    movieReview.review(actionMovie)
+    // Validating Wallet
+    println("Is Wallet valid? ${wallet.validate()}")
+
+    // Using the generic ResponseHandler with a String type
+    val responseHandler = ResponseHandler<String>()
+    responseHandler.handleResponse("Transaction Completed")
+
+    // Using the generic ResponseHandler with a Wallet type
+    val walletHandler = ResponseHandler<Wallet3>()
+    walletHandler.handleResponse(wallet)
 }
