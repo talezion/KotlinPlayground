@@ -27,7 +27,7 @@ fun main() {
     }
     println("Balance after run: $newBalance")
 
-    // Example using 'with' for a transaction summary
+    // Example using 'with' for a transaction summary same as run
     with(wallet!!) {
         println("Transaction Summary")
         println("Address: $address")
