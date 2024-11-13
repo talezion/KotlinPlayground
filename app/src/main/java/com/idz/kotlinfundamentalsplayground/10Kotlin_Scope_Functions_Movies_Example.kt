@@ -5,8 +5,13 @@
  */
 
 class Wallet4(var address: String, var balance: Double)
+var number: Int? = null
 
 fun main() {
+
+//    if (number != null) {
+//        val number2 = number +1
+//    }
     // Example using 'let' to safely work with a nullable Wallet
     val wallet: Wallet4? = Wallet4("1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa", 500.0)
     wallet?.let {
