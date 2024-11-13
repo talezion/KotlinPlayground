@@ -5,6 +5,7 @@
  * This file uses a blockchain-themed example to illustrate nullability in Kotlin.
  */
 
+import com.idz.kotlinfundamentalsplayground.NullStringProvider
 import java.util.Locale
 
 fun main() {
@@ -37,4 +38,8 @@ fun main() {
 
     // Forcing a nullable variable to be non-null with !! (use cautiously)
     println("Confirmation Count (non-null): ${confirmationCount!!}")
+
+    // JAVA Null String! example
+    val javaString = NullStringProvider.getNullString()
+    println(javaString.length)
 }
