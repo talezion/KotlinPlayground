@@ -72,7 +72,7 @@ Follow these steps to start exploring Kotlin fundamentals:
 1. Clone this repository:
 
 ```bash
-git clone https://github.com/yourusername/kotlin-fundamentals.git
+git clone https://github.com/talezion/KotlinPlayground.git
 cd kotlin-fundamentals
 ```
 
